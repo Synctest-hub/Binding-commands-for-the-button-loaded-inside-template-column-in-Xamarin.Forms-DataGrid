@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SfGrid_Sample.MainPage"
+             xmlns:local="clr-namespace:SfGrid_Sample"
+             xmlns:numeric="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" Padding="0,30,0,0">
+
+    <ContentPage.BindingContext>
+        <local:ViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Horizontal">
+
+            <sfgrid:SfDataGrid x:Name="dataGrid"
+                               AutoGenerateColumns="False" 
+                               AllowEditing="True"
+                               ItemsSource="{Binding OrderInfoCollection}"
+                               SelectionMode="Multiple"
+                               SelectedIndex="{Binding SelectedIndex}"
+                               SelectedItem="{Binding SelectedItem}"
+                               SelectedItems="{Binding SelectedItems}" ColumnSizer="Star">
+
+                <sfgrid:SfDataGrid.Columns>
+
+                    <sfgrid:GridPickerColumn BindingContext="{x:Reference viewModel}"
+                                             MappingName="ShipCity" 
+                                             ItemsSource="{Binding CustomerNames}" HeaderText="PickerColumn"/>
+
+                    <sfgrid:GridNumericColumn MappingName="OrderID"/>
+                    <sfgrid:GridTextColumn MappingName="Customer" CellTextSize="{Binding CellTextSize,Source={x:Reference viewModel}}"/>
+                    <sfgrid:GridTextColumn MappingName="ShipCity"/>
+                    <sfgrid:GridTextColumn MappingName="ShipCountry"/>
+                    <sfgrid:GridTemplateColumn MappingName="Customer">
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Text="Template" Command="{Binding ButtonCommand,Source={x:Reference viewModel}}"/>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+                    
+                    
+                    <sfgrid:GridTemplateColumn MappingName="Customer" HeaderText="Picker">
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Picker ItemsSource="{Binding SelectedModels,Source={x:Reference viewModel}}" SelectedIndex="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                </sfgrid:SfDataGrid.Columns>
+            </sfgrid:SfDataGrid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
